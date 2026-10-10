@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="ru" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IAM — Панель управления доступами</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem("iam_theme") || "light";
+            document.documentElement.setAttribute("data-theme", savedTheme);
+            const savedAccent = localStorage.getItem("iam_accent");
+            if (savedAccent) {
+                document.documentElement.style.setProperty("--accent-color", savedAccent);
+            }
+        })();
+    </script>
+</head>
+<body>
+    <a href="#main-content" class="skip-link">Перейти к основному контенту</a>
+
+    <div class="app-layout">
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h2>CloudIAM</h2>
+                <button class="mobile-close-btn" id="mobileCloseBtn" aria-label="Закрыть меню">✕</button>
+            </div>
+            <nav class="nav-menu" role="tablist">
+                <button class="tab-btn active" role="tab" aria-selected="true" data-tab="users">Пользователи</button>
+                <button class="tab-btn" role="tab" aria-selected="false" data-tab="roles">Роли и права</button>
+                <button class="tab-btn" role="tab" aria-selected="false" data-tab="groups">Группы</button>
+                <button class="tab-btn" role="tab" aria-selected="false" data-tab="audit">Аудит</button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="theme-switcher">
+                    <label for="themeSelect">Тема:</label>
+                    <select id="themeSelect">
+                        <option value="light">Светлая</option>
+                        <option value="dark">Темная</option>
+                        <option value="corporate">Корпоративная</option>
+                    </select>
+                </div>
+                <div class="accent-picker">
+                    <label for="accentColorInput">Акцент:</label>
+                    <input type="color" id="accentColorInput" value="#2563eb">
+                </div>
+            </div>
+        </aside>
+
+        <div class="overlay" id="overlay"></div>
+
+        <div class="main-wrapper">
+            <header class="top-header">
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Открыть меню">
+                    <span></span><span></span><span></span>
+                </button>
+                <h1>Панель управления доступами</h1>
+            </header>
+
+            <main id="main-content" class="content-area">
+                <section id="users" class="tab-content active" role="tabpanel">
+                    <div class="section-header">
+                        <h2>Управление пользователями</h2>
+                    </div>
+                    <form id="userForm" class="data-form">
+                        <div class="form-group">
+                            <input type="text" id="userName1" placeholder="Имя" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" id="userName2" placeholder="Фамилия" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" id="userEmail" placeholder="Email" required>
+                        </div>
+                        <div class="form-group">
+                            <select id="userRoles" required></select>
+                        </div>
+                        <div class="form-group">
+                            <select id="userGroup" required></select>
+                        </div>
+                        <button type="submit" class="btn-primary">Добавить</button>
+                    </form>
+
+                    <div class="table-container">
+                        <table id="usersTable">
+                            <caption>Список зарегистрированных пользователей системы</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Имя</th>
+                                    <th scope="col">Фамилия</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Роль</th>
+                                    <th scope="col">Группа</th>
+                                    <th scope="col">Действия</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <section id="roles" class="tab-content" role="tabpanel">
+                    <h2>Роли и права доступа</h2>
+                    <div id="rolesList" class="cards-grid"></div>
+                </section>
+
+                <section id="groups" class="tab-content" role="tabpanel">
+                    <h2>Группы пользователей</h2>
+                    <div id="groupList" class="cards-grid"></div>
+                </section>
+
+                <section id="audit" class="tab-content" role="tabpanel">
+                    <div class="audit-header">
+                        <h2>Журнал аудита безопасности</h2>
+                        <button id="clearAudit" class="btn-warning">Очистить журнал</button>
+                    </div>
+                    <div class="table-container">
+                        <table id="auditTable">
+                            <caption>История действий пользователей в системе</caption>
+                            <thead>
+                                <tr>
+                                    <th scope="col">Время</th>
+                                    <th scope="col">Действие</th>
+                                    <th scope="col">Детали</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
